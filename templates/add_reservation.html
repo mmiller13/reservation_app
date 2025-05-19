@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Add Reservation
+{% endblock %}
+
+{% block content %}
+  <h2>Add New Reservation</h2>
+  <form method="post">
+    <div class="form-group">
+      <label for="reservation_date">Date:</label>
+      <input type="date" id="reservation_date" name="reservation_date" required>
+    </div>
+    <div class="form-group">
+      <label for="reservation_time">Time:</label>
+      <input type="time" id="reservation_time" name="reservation_time" required>
+    </div>
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+    </div>
+    <div class="form-group">
+      <label for="phone">Phone #:</label>
+      <input type="text" id="phone" name="phone" required>
+    </div>
+    <div class="form-group">
+      <label for="num_people">Number of People:</label>
+      <input type="number" id="num_people" name="num_people" min="1" required>
+    </div>
+    <input type="submit" value="Add Reservation">
+  </form>
+{% endblock %}

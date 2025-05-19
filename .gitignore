@@ -1,0 +1,28 @@
+# Python byte-compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# SQLite database file (from the Docker volume or if created locally)
+# This ensures your actual reservation data isn't committed to the repo.
+# It's good practice to keep runtime data out of version control.
+persistent_data/reservations.db
+reservations.db 
+
+# If the persistent_data folder ONLY contains the database and no other
+# version-controlled files, you could ignore the whole folder:
+# persistent_data/
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE specific files
+.vscode/
+# .idea/ # If you use JetBrains IDEs

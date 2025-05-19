@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Current Reservations
+{% endblock %}
+
+{% block content %}
+  <h2>Current Reservations</h2>
+  {% if reservations %}
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Name</th>
+          <th>Phone #</th>
+          <th># People</th>
+          <th>Booked On</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for reservation in reservations %}
+          <tr>
+            <td>{{ reservation.id }}</td>
+            <td>{{ reservation.reservation_date }}</td>
+            <td>{{ reservation.reservation_time }}</td>
+            <td>{{ reservation.name }}</td>
+            <td>{{ reservation.phone }}</td>
+            <td>{{ reservation.num_people }}</td>
+            <td>{{ reservation.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No reservations yet. <a href="{{ url_for('add_reservation') }}">Add one!</a></p>
+  {% endif %}
+{% endblock %}
