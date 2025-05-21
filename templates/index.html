@@ -5,35 +5,100 @@
 {% endblock %}
 
 {% block content %}
-  <h2>Current Reservations</h2>
+  <div style="margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid var(--medium-gray);">
+    <strong>View:</strong>
+    <a href="{{ url_for('index', sort_by=current_sort_by, order=current_order, view_status='active') }}" 
+       class="button button-small {{ 'active' if current_view_status == 'active' else 'button-outline' }}">Active/Upcoming</a>
+    <a href="{{ url_for('index', sort_by=current_sort_by, order=current_order, view_status='past_active') }}" 
+       class="button button-small {{ 'active' if current_view_status == 'past_active' else 'button-outline' }}">Past Active</a>
+    <a href="{{ url_for('index', sort_by=current_sort_by, order=current_order, view_status='cancelled') }}" 
+       class="button button-small {{ 'active' if current_view_status == 'cancelled' else 'button-outline' }}">Cancelled</a>
+    <a href="{{ url_for('index', sort_by=current_sort_by, order=current_order, view_status='all') }}" 
+       class="button button-small {{ 'active' if current_view_status == 'all' else 'button-outline' }}">All</a>
+  </div>
+
+  <h2>
+    {% if current_view_status == 'active' %}Active/Upcoming
+    {% elif current_view_status == 'past_active' %}Past Active
+    {% elif current_view_status == 'cancelled' %}Cancelled
+    {% elif current_view_status == 'all' %}All
+    {% else %}Current
+    {% endif %}
+    Reservations
+  </h2>
+
   {% if reservations %}
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Date</th>
-          <th>Time</th>
-          <th>Name</th>
-          <th>Phone #</th>
-          <th># People</th>
-          <th>Booked On</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for reservation in reservations %}
+    <div class="table-responsive-wrapper">
+      <table>
+        <thead>
           <tr>
-            <td>{{ reservation.id }}</td>
-            <td>{{ reservation.reservation_date }}</td>
-            <td>{{ reservation.reservation_time }}</td>
-            <td>{{ reservation.name }}</td>
-            <td>{{ reservation.phone }}</td>
-            <td>{{ reservation.num_people }}</td>
-            <td>{{ reservation.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+            <th>
+              <a href="{{ url_for('index', sort_by='reservation_date', order='desc' if current_sort_by == 'reservation_date' and current_order == 'asc' else 'asc', view_status=current_view_status) }}">
+                Date
+                {% if current_sort_by == 'reservation_date' %}
+                  <span class="sort-arrow">{% if current_order == 'asc' %}▲{% else %}▼{% endif %}</span>
+                {% endif %}
+              </a>
+            </th>
+            <th>Time</th>
+            <th>
+              <a href="{{ url_for('index', sort_by='guest_name', order='desc' if current_sort_by == 'guest_name' and current_order == 'asc' else 'asc', view_status=current_view_status) }}">
+                Guest Name
+                {% if current_sort_by == 'guest_name' %}
+                  <span class="sort-arrow">{% if current_order == 'asc' %}▲{% else %}▼{% endif %}</span>
+                {% endif %}
+              </a>
+            </th>
+            <th>Guest Phone</th>
+            <th>
+              <a href="{{ url_for('index', sort_by='num_people', order='desc' if current_sort_by == 'num_people' and current_order == 'asc' else 'asc', view_status=current_view_status) }}">
+                # People
+                {% if current_sort_by == 'num_people' %}
+                  <span class="sort-arrow">{% if current_order == 'asc' %}▲{% else %}▼{% endif %}</span>
+                {% endif %}
+              </a>
+            </th>
+            <th>Res. Notes</th>
+            <th>Booked On</th>
+            <th>Status</th>
+            <th>Actions</th>
           </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {% for reservation in reservations %}
+            <tr class="{{ 'status-cancelled' if reservation.status == 'cancelled' }}">
+              <td>{{ reservation.reservation_date.strftime('%m/%d/%Y') if reservation.reservation_date else '-' }}</td>
+              <td>{{ reservation.reservation_time.strftime('%I:%M %p') if reservation.reservation_time else '-' }}</td>
+              <td>{{ reservation.guest.first_name }} {{ reservation.guest.last_name }}</td>
+              <td>{{ reservation.guest.phone }}</td>
+              <td>{{ reservation.num_people }}</td>
+              <td style="white-space: pre-wrap; max-width: 200px; overflow-wrap: break-word;">{{ reservation.notes if reservation.notes else '-' }}</td>
+              <td>{{ reservation.created_at | localdatetime if reservation.created_at else '-' }}</td>
+              <td>{{ reservation.status | capitalize }}</td>
+              <td class="actions-cell">
+                {% if reservation.status == 'active' %}
+                  <a href="{{ url_for('edit_reservation', reservation_id=reservation.id) }}" class="button button-small button-edit">Edit</a>
+                  <form action="{{ url_for('cancel_reservation', reservation_id=reservation.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to cancel this reservation? This will mark it as cancelled.');">
+                    <input type="submit" value="Cancel" class="button button-small button-cancel">
+                  </form>
+                {% elif reservation.status == 'cancelled' %}
+                  <form action="{{ url_for('reactivate_reservation', reservation_id=reservation.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to reactivate this reservation?');">
+                    <input type="submit" value="Reactivate" class="button button-small button-reactivate">
+                  </form>
+                {% else %}
+                  <span>{{ reservation.status | capitalize }}</span>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   {% else %}
-    <p>No reservations yet. <a href="{{ url_for('add_reservation') }}">Add one!</a></p>
+    <p>No {{ current_view_status.replace('_', ' ') if current_view_status != 'all' else '' }} reservations found. 
+    {% if current_view_status == 'active' or current_view_status == 'all' or current_view_status == 'past_active' %}
+        <a href="{{ url_for('add_reservation') }}" class="button">Add one!</a>
+    {% endif %}
+    </p>
   {% endif %}
 {% endblock %}

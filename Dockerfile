@@ -17,8 +17,8 @@ COPY . .
 EXPOSE 5000
 
 # Define environment variable (optional, can be overridden at runtime)
-ENV FLASK_APP app.py
-ENV FLASK_RUN_HOST 0.0.0.0
+ENV FLASK_APP=app.py
+ENV FLASK_RUN_HOST=0.0.0.0
 # The DATABASE_URL will ideally be provided in the `docker run` command for persistence.
 # Example: ENV DATABASE_URL sqlite:////app/data/reservations.db
 

@@ -3,6 +3,9 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+*.egg-info/
+dist/
+build/
 
 # Virtual environment
 .venv/
@@ -17,7 +20,8 @@ reservations.db
 
 # If the persistent_data folder ONLY contains the database and no other
 # version-controlled files, you could ignore the whole folder:
-# persistent_data/
+persistent_data/
+instance/ 
 
 # OS-generated files
 .DS_Store
@@ -26,3 +30,6 @@ Thumbs.db
 # Editor/IDE specific files
 .vscode/
 # .idea/ # If you use JetBrains IDEs
+
+# Log files (if you generate any)
+*.log

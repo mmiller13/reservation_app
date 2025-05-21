@@ -1,0 +1,179 @@
+/* static/css/style.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
+
+:root {
+    --font-family-sans-serif: 'Lato', Arial, sans-serif;
+    --primary-color: #3498db;
+    --secondary-color: #2c3e50;
+    --light-gray: #f8f9fa;
+    --medium-gray: #e9ecef;
+    --dark-gray: #343a40;
+    --text-color: #34495e;
+    --white: #ffffff;
+    --success-bg: #d4edda;
+    --success-border: #c3e6cb;
+    --success-text: #155724;
+    --warning-bg: #fff3cd;
+    --warning-border: #ffeeba;
+    --warning-text: #856404;
+    --error-bg: #f8d7da;
+    --error-border: #f5c6cb;
+    --error-text: #721c24;
+    --info-bg: #d1ecf1; /* Added info for general messages */
+    --info-border: #bee5eb;
+    --info-text: #0c5460;
+    --border-radius: 0.25rem;
+    --button-reactivate-bg: #28a745; /* Green */
+    --button-reactivate-hover-bg: #218838; /* Darker Green */
+}
+
+html { box-sizing: border-box; }
+*, *:before, *:after { box-sizing: inherit; }
+
+body {
+    font-family: var(--font-family-sans-serif);
+    margin: 0; padding: 0;
+    background-color: var(--light-gray);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+nav.navbar {
+    background-color: var(--secondary-color);
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.navbar-brand {
+    display: flex; align-items: center;
+    color: var(--white); text-decoration: none;
+    font-size: 1.5em; font-weight: 700;
+}
+.navbar-brand img.logo { max-height: 40px; margin-right: 10px; }
+.nav-links a {
+    color: var(--white); margin-left: 20px;
+    text-decoration: none; font-size: 1em;
+    padding: 0.5rem 0;
+    transition: color 0.2s ease-in-out;
+}
+.nav-links a:hover, .nav-links a:focus { color: var(--primary-color); text-decoration: none; }
+
+.container {
+    background-color: var(--white); padding: 25px;
+    margin: 20px auto; border-radius: var(--border-radius);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    max-width: 1100px;
+}
+
+h1, h2, h3 { color: var(--dark-gray); margin-top: 0; margin-bottom: 0.75rem; font-weight: 400; }
+h1 { font-size: 2.25em; }
+h2 { font-size: 1.75em; }
+
+.table-responsive-wrapper {
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+    margin-bottom: 1rem; border: 1px solid var(--medium-gray);
+    border-radius: var(--border-radius);
+}
+table { width: 100%; border-collapse: collapse; margin-top: 0; }
+th, td { border: none; border-bottom: 1px solid var(--medium-gray); padding: 12px 15px; text-align: left; } /* Removed word-break from global th,td */
+th { background-color: var(--light-gray); font-weight: 700; color: var(--secondary-color); }
+tbody tr:nth-child(even) { background-color: var(--light-gray); }
+tbody tr:hover { background-color: #e2e6ea; }
+th a { text-decoration: none; color: inherit; display: block; }
+th a:hover { color: var(--primary-color); }
+.sort-arrow { margin-left: 5px; font-size: 0.8em; }
+
+.status-cancelled td { color: #999; /* text-decoration: line-through; */ }
+
+/* Column specific width and wrap behavior */
+table th:nth-child(1), table td:nth-child(1) { min-width: 100px; white-space: nowrap; } /* Date */
+table th:nth-child(2), table td:nth-child(2) { min-width: 110px; white-space: nowrap; } /* Time */
+table th:nth-child(3), table td:nth-child(3) { min-width: 180px; word-break: break-word; } /* Guest Name - allow wrap */
+table th:nth-child(4), table td:nth-child(4) { min-width: 125px; white-space: nowrap; } /* Guest Phone */
+table th:nth-child(5), table td:nth-child(5) { min-width: 70px; text-align: center; } /* # People */
+table th:nth-child(6), table td:nth-child(6) { /* Res. Notes */
+    min-width: 200px; white-space: pre-wrap; overflow-wrap: break-word; max-width: 250px; 
+}
+table th:nth-child(7), table td:nth-child(7) { min-width: 170px; white-space: nowrap;} /* Booked On */
+table th:nth-child(8), table td:nth-child(8) { min-width: 80px; white-space: nowrap; } /* Status */
+table th:nth-child(9), table td:nth-child(9) { min-width: 130px; text-align: center; } /* Actions */
+
+
+.form-group { margin-bottom: 1.25rem; }
+label { display: block; margin-bottom: 0.5rem; font-weight: 700; color: var(--text-color); }
+input[type="text"], input[type="date"], input[type="time"], input[type="number"],
+input[type="tel"], input[type="email"], textarea {
+    width: 100%; padding: 12px;
+    border: 1px solid var(--medium-gray); border-radius: var(--border-radius);
+    font-family: var(--font-family-sans-serif); font-size: 1em;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+input[type="text"]:focus, input[type="date"]:focus, input[type="time"]:focus, input[type="number"]:focus,
+input[type="tel"]:focus, input[type="email"]:focus, textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+    outline: none;
+}
+textarea { resize: vertical; min-height: 60px;}
+
+.button, input[type="submit"] {
+    background-color: var(--primary-color); color: var(--white);
+    padding: 10px 15px; /* Adjusted padding for default button */
+    border: none; border-radius: var(--border-radius);
+    cursor: pointer; font-size: 1em; font-weight: normal; /* Normal weight for default */
+    text-decoration: none; display: inline-block;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+    line-height: 1.5; /* Ensure text is centered well */
+}
+.button:hover, input[type="submit"]:hover { background-color: #2980b9; }
+
+.button-small { padding: 0.35rem 0.75rem; font-size: 0.875em; margin-right: 5px; text-align: center; }
+
+.button-outline {
+    background-color: transparent; color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+.button-outline.active, .button-outline:hover {
+    background-color: var(--primary-color); color: var(--white);
+}
+
+.button-edit { background-color: #ffc107; color: #212529; }
+.button-edit:hover { background-color: #e0a800; }
+.button-cancel { background-color: #dc3545; color: var(--white); }
+.button-cancel:hover { background-color: #c82333; }
+.button-reactivate { background-color: var(--button-reactivate-bg); color: var(--white); }
+.button-reactivate:hover { background-color: var(--button-reactivate-hover-bg); }
+
+
+.alert { padding: 1rem; margin-bottom: 1.5rem; border: 1px solid transparent; border-radius: var(--border-radius); }
+.alert-success { color: var(--success-text); background-color: var(--success-bg); border-color: var(--success-border); }
+.alert-warning { color: var(--warning-text); background-color: var(--warning-bg); border-color: var(--warning-border); }
+.alert-error { color: var(--error-text); background-color: var(--error-bg); border-color: var(--error-border); }
+.alert-info { color: var(--info-text); background-color: var(--info-bg); border-color: var(--info-border); }
+
+.actions-cell { white-space: nowrap; }
+
+@media (max-width: 768px) {
+    nav.navbar { flex-direction: column; align-items: flex-start; }
+    .navbar-brand { margin-bottom: 0.5rem; }
+    .nav-links { margin-left: 0; width: 100%; display: flex; flex-direction: column; align-items: flex-start; }
+    .nav-links a { margin-left: 0; padding: 0.5rem 0; width: 100%; border-top: 1px solid rgba(255,255,255,0.1); }
+    .nav-links a:first-child { border-top: none; }
+    .container { margin: 0; padding: 15px; border-radius: 0; }
+    h1 { font-size: 1.75em; }
+    h2 { font-size: 1.5em; }
+    th, td { padding: 8px 10px; }
+    .actions-cell .button, .actions-cell input[type="submit"] { margin-bottom: 5px; display:block; width: 100%; } 
+    .actions-cell form { display: block !important; }
+}
+@media (max-width: 480px) {
+    body { font-size: 14px; }
+    input[type="text"], input[type="date"], input[type="time"], input[type="number"],
+    input[type="tel"], input[type="email"], textarea, .button, input[type="submit"] {
+        font-size: 0.95em;
+    }
+    .button-small { padding: 0.4rem 0.8rem; } /* Slightly increased padding for better tap target */
+}

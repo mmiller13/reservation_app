@@ -1,42 +1,43 @@
 {% extends "layout.html" %}
 
 {% block title %}
-  Add Reservation
+  Edit Reservation
 {% endblock %}
 
 {% block content %}
-  <h2>Add New Reservation</h2>
-  <form method="post" id="reservationForm">
+  <h2>Edit Reservation</h2>
+  <form method="post" action="{{ url_for('edit_reservation', reservation_id=reservation.id) }}" id="reservationForm">
     <div class="form-group">
       <label for="guest_first_name">Guest First Name:</label>
-      <input type="text" id="guest_first_name" name="guest_first_name" required>
+      <input type="text" id="guest_first_name" name="guest_first_name" value="{{ reservation.guest.first_name }}" required>
     </div>
     <div class="form-group">
       <label for="guest_last_name">Guest Last Name:</label>
-      <input type="text" id="guest_last_name" name="guest_last_name" required>
+      <input type="text" id="guest_last_name" name="guest_last_name" value="{{ reservation.guest.last_name }}" required>
     </div>
     <div class="form-group">
       <label for="guest_phone">Guest Phone #:</label>
-      <input type="tel" id="guest_phone" name="guest_phone" required>
+      <input type="tel" id="guest_phone" name="guest_phone" value="{{ reservation.guest.phone }}" required>
     </div>
     <hr style="margin: 20px 0;">
     <div class="form-group">
       <label for="reservation_date">Date:</label>
-      <input type="date" id="reservation_date" name="reservation_date" required>
+      <input type="date" id="reservation_date" name="reservation_date" value="{{ reservation.reservation_date.strftime('%Y-%m-%d') if reservation.reservation_date else '' }}" required>
     </div>
     <div class="form-group">
       <label for="reservation_time">Time:</label>
-      <input type="time" id="reservation_time" name="reservation_time" required>
+      <input type="time" id="reservation_time" name="reservation_time" value="{{ reservation.reservation_time.strftime('%H:%M') if reservation.reservation_time else '' }}" required>
     </div>
     <div class="form-group">
       <label for="num_people">Number of People:</label>
-      <input type="number" id="num_people" name="num_people" min="1" required>
+      <input type="number" id="num_people" name="num_people" value="{{ reservation.num_people }}" min="1" required>
     </div>
     <div class="form-group">
       <label for="reservation_notes">Reservation Notes (optional):</label>
-      <textarea id="reservation_notes" name="reservation_notes" rows="3"></textarea>
+      <textarea id="reservation_notes" name="reservation_notes" rows="3">{{ reservation.notes if reservation.notes is not none else '' }}</textarea>
     </div>
-    <input type="submit" value="Add Reservation" class="button">
+    <input type="submit" value="Update Reservation" class="button">
+    <a href="{{ url_for('index') }}" class="button" style="background-color: #6c757d; margin-left: 10px;">Cancel Edit</a>
   </form>
 
   <script>
@@ -61,7 +62,7 @@
             const timeForAlert = String(hoursForAlert).padStart(2, '0') + ':' + String(minutes).padStart(2, '0') + ' ' + ampm;
             const proceed = window.confirm(
               "⚠️ Warning: The selected date and time (" + dateForAlert + " at " + timeForAlert + ") are in the past.\n\n" +
-              "Do you want to proceed with this reservation anyway?"
+              "Do you want to proceed with this update?"
             );
             if (!proceed) { event.preventDefault(); }
           }
