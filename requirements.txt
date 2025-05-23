@@ -1,5 +1,5 @@
 Flask==2.3.3
-Flask-SQLAlchemy==3.0.5
-SQLAlchemy==2.0.25
+Flask-SQLAlchemy==3.0.5 # Or newer if available
+SQLAlchemy==2.0.29 # Example newer version
 pytz==2024.1
-click==8.1.7 
+click==8.1.7

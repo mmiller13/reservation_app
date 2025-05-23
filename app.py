@@ -188,7 +188,7 @@ def add_reservation():
                 num_people=num_people,
                 notes=reservation_notes,
                 guest_id=guest.id,
-                status='active'
+                status='active',
                 source='Staff Input' # Or 'Phone', 'Internal', etc. 
             )
             db.session.add(new_reservation)
