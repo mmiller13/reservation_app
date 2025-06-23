@@ -19,6 +19,12 @@ app.config['TARGET_TZ'] = 'America/New_York'
 
 db = SQLAlchemy(app)
 
+# --- Context Processor to Inject Environment Info ---
+@app.context_processor
+def inject_environment_info():
+    is_docker = os.environ.get('RUNNING_IN_DOCKER', 'false').lower() == 'true'
+    return dict(is_docker_env=is_docker)
+
 # --- Custom Jinja Filter ---
 @app.template_filter('localdatetime')
 def localdatetime_filter(utc_dt):

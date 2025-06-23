@@ -33,6 +33,7 @@ EXPOSE 5000
 # Define environment variables for Flask
 ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0
+ENV RUNNING_IN_DOCKER=true
 
 # Run app.py when the container launches
 CMD ["flask", "run"]
