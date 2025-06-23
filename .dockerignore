@@ -1,0 +1,33 @@
+# .dockerignore
+
+# Ignore Python virtual environment
+.venv/
+venv/
+env/
+
+# Ignore Python bytecode and cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore Git directory and files
+.git
+.gitignore
+.gitattributes
+
+# Ignore Docker Compose override file if you use one
+docker-compose.override.yml
+
+# Ignore local database files and persistent data
+# The container uses a volume for this, it should not be part of the image
+reservations.db
+persistent_data/
+
+# Ignore IDE/editor specific files
+.vscode/
+.idea/
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
